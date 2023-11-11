@@ -36,4 +36,4 @@ build/
 !**/src/main/resources/application.yml.template
 
 # Ignore application.yml since it contains sensitive information
-application.yml
+src/main/resources/application.yml
