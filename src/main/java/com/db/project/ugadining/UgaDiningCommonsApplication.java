@@ -1,5 +1,6 @@
 package com.db.project.ugadining;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,6 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class UgaDiningCommonsApplication {
 
 	public static void main(String[] args) {
+		Dotenv dotenv = Dotenv.configure().load();
+
+		System.setProperty("POSTGRES_USERNAME", dotenv.get("POSTGRES_USERNAME"));
+		System.setProperty("POSTGRES_PASSWORD", dotenv.get("POSTGRES_PASSWORD"));
+		System.setProperty("POSTGRES_DB", dotenv.get("POSTGRES_DB"));
+
 		SpringApplication.run(UgaDiningCommonsApplication.class, args);
 	}
 
