@@ -33,8 +33,7 @@ build/
 .vscode/
 
 ### application properties ###
-!**/src/main/resources/application.yml.template
+!**/src/main/resources/application.yml
 
 # Ignore application.yml and .env since it contains sensitive information
-src/main/resources/application.yml
 .env
