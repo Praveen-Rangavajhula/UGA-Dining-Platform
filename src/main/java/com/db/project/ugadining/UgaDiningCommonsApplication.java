@@ -12,7 +12,7 @@ public class UgaDiningCommonsApplication {
 
 		System.setProperty("POSTGRES_USERNAME", dotenv.get("POSTGRES_USERNAME"));
 		System.setProperty("POSTGRES_PASSWORD", dotenv.get("POSTGRES_PASSWORD"));
-		System.setProperty("POSTGRES_DB", dotenv.get("POSTGRES_DB"));
+		System.setProperty("POSTGRES_URL", dotenv.get("POSTGRES_URL"));
 
 		SpringApplication.run(UgaDiningCommonsApplication.class, args);
 	}
