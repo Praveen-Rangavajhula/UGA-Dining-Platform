@@ -1,13 +1,13 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
+    url: ${POSTGRES_URL}
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: true
@@ -17,4 +17,11 @@ spring:
     generate-ddl: true
 
   flyway:
-    locations: classpath:db.migration
+    url: ${POSTGRES_URL}
+    user: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    locations: classpath:db/migration
+    clean-on-validation-error: true
+    clean-disabled: false
+    baseline-on-migrate: true
+    baseline-version: 0
