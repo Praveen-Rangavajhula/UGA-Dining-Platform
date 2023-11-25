@@ -23,7 +23,11 @@ public class ApplicationConfiguration {
     public UserDetailsService userDetailsService() {
         return (
                 username -> userRepository.findUserByEmail(username)
-                        .orElseThrow(() -> new UsernameNotFoundException("User not found"))
+                        .orElseThrow(
+                                () -> new UsernameNotFoundException(
+                                        String.format("User with email %s not found", username)
+                                )
+                        )
         );
     }
 

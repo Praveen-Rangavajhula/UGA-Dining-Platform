@@ -2,6 +2,8 @@ package com.db.project.ugadining.security.config;
 
 import com.db.project.ugadining.security.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,12 +19,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+    private static final Logger logger = LoggerFactory.getLogger( SecurityConfiguration.class );
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider jwtAuthenticationProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception {
-
+        logger.info("Initializing the security filter chain");
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
