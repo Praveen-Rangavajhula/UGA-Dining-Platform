@@ -4,7 +4,6 @@ import com.db.project.ugadining.model.enums.Allergy;
 import com.db.project.ugadining.model.enums.FoodPreference;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.List;
 
 @Getter
@@ -18,7 +17,12 @@ import java.util.List;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence_generator")
+    @SequenceGenerator(
+            name = "student_sequence_generator",
+            sequenceName = "student_sequence",
+            allocationSize = 1
+    )
     private Long studentId;
     private String studentName;
     private String studentPhoneNumber;
@@ -37,6 +41,5 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "student_has_meal_plan")
     private MealPlan studentMealPlan;
-
 
 }

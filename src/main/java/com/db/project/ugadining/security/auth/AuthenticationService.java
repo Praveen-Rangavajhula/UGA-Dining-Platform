@@ -1,6 +1,5 @@
 package com.db.project.ugadining.security.auth;
 
-import com.db.project.ugadining.security.config.JwtService;
 import com.db.project.ugadining.security.user.Role;
 import com.db.project.ugadining.security.user.User;
 import com.db.project.ugadining.security.user.UserRepository;
@@ -12,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import javax.security.auth.login.FailedLoginException;
 
 @Service
 @RequiredArgsConstructor
@@ -40,31 +40,39 @@ public class AuthenticationService {
         logger.info("User registered successfully: {}", user.getEmail());
 
         return AuthenticationResponse.builder()
+                .firstName(user.getFirstname())
                 .token(jwtToken)
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
-        logger.info("Authenticating user: {}", authenticationRequest.getEmail());
+    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) throws FailedLoginException {
+        try {
+            logger.info("Authenticating user: {}", authenticationRequest.getEmail());
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getEmail(),
-                        authenticationRequest.getPassword()
-                )
-        );
-        var user = userRepository
-                .findUserByEmail(authenticationRequest.getEmail())
-                .orElseThrow(
-                        () -> new UsernameNotFoundException("User not found")
-                );
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            authenticationRequest.getEmail(),
+                            authenticationRequest.getPassword()
+                    )
+            );
 
-        logger.info("User authenticated successfully: {}", user.getEmail());
+            var user = userRepository
+                    .findUserByEmail(authenticationRequest.getEmail())
+                    .orElseThrow(
+                            () -> new UsernameNotFoundException("User not found")
+                    );
 
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+            logger.info("User authenticated successfully: {}", user.getEmail());
+
+            var jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponse.builder()
+                    .firstName(user.getFirstname())
+                    .token(jwtToken)
+                    .build();
+        } catch (Exception e) {
+            logger.error("Error during authentication: {}", e.getMessage());
+            throw new FailedLoginException("Error during authentication");
+        }
     }
 }
 

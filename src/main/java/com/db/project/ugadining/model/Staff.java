@@ -18,7 +18,12 @@ import java.time.LocalTime;
 public class Staff {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "staff_sequence_generator")
+    @SequenceGenerator(
+            name = "staff_sequence_generator",
+            sequenceName = "staff_sequence",
+            allocationSize = 1
+    )
     private Long staffId;
     private String staffName;
     @Enumerated(EnumType.STRING)
