@@ -1,6 +1,6 @@
 package com.db.project.ugadining.security.filter;
 
-import com.db.project.ugadining.security.config.JwtService;
+import com.db.project.ugadining.security.auth.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;

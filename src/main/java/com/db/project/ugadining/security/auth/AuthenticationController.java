@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.security.auth.login.FailedLoginException;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -30,7 +32,7 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest authenticationRequest
-    ) {
+    ) throws FailedLoginException {
         logger.info("Received authentication request for email: {}", authenticationRequest.getEmail());
         AuthenticationResponse response = authenticationService.authenticate(authenticationRequest);
         logger.info("Authentication successful for email: {}", authenticationRequest.getEmail());

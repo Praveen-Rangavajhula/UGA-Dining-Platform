@@ -16,7 +16,12 @@ import java.math.BigDecimal;
 public class MealPlan {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "meal_plan_sequence_generator")
+    @SequenceGenerator(
+            name = "meal_plan_sequence_generator",
+            sequenceName = "meal_plan_sequence",
+            allocationSize = 1
+    )
     private Long mealPlanId;
     private String mealPlanDuration;
     private BigDecimal mealPlanPrice;
