@@ -1,4 +1,4 @@
-package com.db.project.ugadining.security.config;
+package com.db.project.ugadining.security.auth;
 
 import com.db.project.ugadining.exception.NotFoundException;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -36,8 +36,6 @@ public class JwtService {
         SECRET_KEY = secretKey;
         logger.info("Secret key initialized successfully");
     }
-
-
 
     public String extractUsername(String jwtToken) {
         logger.info("Extracting username from jwt token");
