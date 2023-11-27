@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS meal_plan
 CREATE TABLE IF NOT EXISTS menu
 (
     menu_name VARCHAR(255) NOT NULL,
+    dining_hall_name VARCHAR(255),
     CONSTRAINT pk_menu PRIMARY KEY (menu_name)
 );
 

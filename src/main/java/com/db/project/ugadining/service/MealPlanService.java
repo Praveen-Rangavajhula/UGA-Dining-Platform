@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -42,6 +44,10 @@ public class MealPlanService {
 
         if (newMealPlan.getMealPlanDuration() == null || newMealPlan.getMealPlanPrice() == null) {
             throw new IllegalArgumentException("Meal plan duration and price must be specified.");
+        }
+
+        if (newMealPlan.getMealPlanPrice().compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Meal plan price cannot be negative.");
         }
 
         mealPlanRepository.save(newMealPlan);

@@ -8,5 +8,6 @@ public enum FoodPreference {
     NUT_FREE,
     HALAL,
     KOSHER,
-    PESCATARIAN
+    PESCATARIAN,
+    ANY
 }

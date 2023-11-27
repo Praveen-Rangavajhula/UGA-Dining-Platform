@@ -9,5 +9,6 @@ public enum Allergy {
     MILK,
     EGG,
     WHEAT,
-    GLUTEN
+    GLUTEN,
+    NONE
 }

@@ -34,10 +34,10 @@ public class DiningHallController {
 
     @PostMapping
     public ResponseEntity<DiningHall> postDiningHall(
-            @RequestBody DiningHall diningHall
+            @RequestBody DiningHallDto diningHallDto
     ) {
 
-        diningHallService.putNewDiningHall(diningHall);
+        DiningHall diningHall = diningHallService.putNewDiningHall(diningHallDto);
         logger.info("Successfully registered dining hall {} ", diningHall.getDiningHallName());
         return new ResponseEntity<>(diningHall, HttpStatus.CREATED);
     }
