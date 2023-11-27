@@ -1,5 +1,6 @@
 package com.db.project.ugadining.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class Menu {
             inverseJoinColumns = @JoinColumn(name = "dish_name")
     )
     @ToString.Exclude
+    @JsonManagedReference
     private List<Dish> dishList = new ArrayList<>();
 
     @ManyToOne

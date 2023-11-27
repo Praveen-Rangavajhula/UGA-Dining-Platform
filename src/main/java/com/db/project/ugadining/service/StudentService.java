@@ -4,8 +4,6 @@ import com.db.project.ugadining.exception.NotFoundException;
 import com.db.project.ugadining.model.MealPlan;
 import com.db.project.ugadining.model.Student;
 import com.db.project.ugadining.model.dto.StudentDto;
-import com.db.project.ugadining.model.enums.Allergy;
-import com.db.project.ugadining.model.enums.FoodPreference;
 import com.db.project.ugadining.repository.MealPlanRepository;
 import com.db.project.ugadining.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,29 +47,26 @@ public class StudentService {
     public Student putNewStudent(StudentDto studentDto) {
 
         if (studentDto.studentName() == null || studentDto.studentPhoneNumber() == null ||
-                studentDto.studentEmail() == null || studentDto.studentMealPlanId() == null) {
+                studentDto.studentEmail() == null || studentDto.studentMealPlanId() == null ||
+                studentDto.studentFoodPreferences() == null || studentDto.studentAllergies() == null) {
             throw new IllegalArgumentException("Required fields are missing in StudentDto");
         }
 
         MealPlan mealPlan = mealPlanRepository.findById(Objects.requireNonNull(studentDto.studentMealPlanId()))
                 .orElseThrow(() -> new RuntimeException("MealPlan not found"));
 
-        List<FoodPreference> foodPreferences = null;
-        if (studentDto.studentFoodPreferences() != null) {
-            foodPreferences = new ArrayList<>(studentDto.studentFoodPreferences());
-        }
-
-        List<Allergy> allergies = null;
-        if (studentDto.studentAllergies() != null) {
-            allergies = new ArrayList<>(studentDto.studentAllergies());
-        }
-
         Student student = Student.builder()
                 .studentName(studentDto.studentName())
                 .studentPhoneNumber(studentDto.studentPhoneNumber())
                 .studentEmail(studentDto.studentEmail())
-                .studentFoodPreferences(foodPreferences)
-                .studentAllergies(allergies)
+                .studentFoodPreferences(
+                        studentDto.studentFoodPreferences().stream()
+                                .toList()
+                )
+                .studentAllergies(
+                        studentDto.studentAllergies().stream()
+                                .toList()
+                )
                 .studentMealPlan(mealPlan)
                 .build();
 
@@ -111,7 +104,7 @@ public class StudentService {
         logger.info("Updating the student with id {}", studentId);
 
         Student existingStudent = studentRepository.findById(studentId)
-                .orElseThrow(() -> new NotFoundException(String.format("Student with name %s not found", studentId)));
+                .orElseThrow(() -> new NotFoundException(String.format("Student with id %d not found", studentId)));
 
         if (studentDto.studentName() != null) {
             existingStudent.setStudentName(studentDto.studentName());
