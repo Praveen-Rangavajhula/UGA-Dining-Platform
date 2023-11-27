@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DiningHallService {
 
-    private static final Logger logger = LoggerFactory.getLogger( DiningHallService.class );
+    private static final Logger logger = LoggerFactory.getLogger(DiningHallService.class);
     private final DiningHallRepository diningHallRepository;
 
     public List<DiningHall> getDiningHalls() {
@@ -28,28 +29,45 @@ public class DiningHallService {
         logger.info("Obtaining dining hall with name {}", diningName);
 
         return diningHallRepository.findDiningHallByDiningHallName(diningName)
-                .orElseThrow(
-                        () -> new NotFoundException(String.format("Dining Hall with name '%s' not found", diningName))
-                );
+                .orElseThrow(() -> new NotFoundException(String.format("Dining Hall with name '%s' not found", diningName)));
     }
 
-    public void putNewDiningHall(DiningHall diningHall) {
+    public DiningHall putNewDiningHall(DiningHallDto diningHallDto) {
+        if (diningHallDto.diningHallName() == null ||
+                diningHallDto.diningHallAddress() == null ||
+                diningHallDto.diningHallOpeningTime() == null ||
+                diningHallDto.diningHallClosingTime() == null ||
+                diningHallDto.diningHallPhoneNumber() == null ||
+                diningHallDto.diningHallEmail() == null) {
+            throw new IllegalArgumentException("Required fields are missing in DiningHallDto");
+        }
+
+        DiningHall diningHall = DiningHall.builder()
+                .diningHallName(diningHallDto.diningHallName())
+                .diningHallAddress(diningHallDto.diningHallAddress())
+                .diningHallOpeningTime(diningHallDto.diningHallOpeningTime())
+                .diningHallClosingTime(diningHallDto.diningHallClosingTime())
+                .diningHallPhoneNumber(diningHallDto.diningHallPhoneNumber())
+                .diningHallEmail(diningHallDto.diningHallEmail())
+                .build();
+
         logger.info("Registering a new dining hall with name {}", diningHall.getDiningHallName());
 
         Optional<DiningHall> diningHallFromRepository = diningHallRepository.findDiningHallByDiningHallName(diningHall.getDiningHallName());
-        if(diningHallFromRepository.isPresent()) {
+        if (diningHallFromRepository.isPresent()) {
             throw new IllegalStateException(
                     String.format("Dining hall with name '%s' already exists", diningHall.getDiningHallName())
             );
         }
         diningHallRepository.save(diningHall);
+        return diningHall;
     }
 
     public void deleteDiningHall(String diningName) {
         logger.info("Deleting the dining hall with name {}", diningName);
 
         boolean exists = diningHallRepository.existsById(diningName);
-        if(!exists) {
+        if (!exists) {
             logger.error("Dining hall with name {} does not exist", diningName);
             throw new NotFoundException(String.format("Dining hall with name %s does not exist", diningName));
         }
@@ -89,5 +107,4 @@ public class DiningHallService {
 
         return existingDiningHall;
     }
-
 }
