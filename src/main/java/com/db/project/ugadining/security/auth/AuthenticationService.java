@@ -45,7 +45,7 @@ public class AuthenticationService {
         logger.info("User registered successfully: {}", user.getEmail());
 
         return AuthenticationResponse.builder()
-                .firstName(user.getFirstname())
+                .email(user.getEmail())
                 .token(jwtToken)
                 .build();
     }
@@ -71,7 +71,7 @@ public class AuthenticationService {
 
             var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponse.builder()
-                    .firstName(user.getFirstname())
+                    .email(user.getEmail())
                     .token(jwtToken)
                     .build();
         } catch (Exception e) {
