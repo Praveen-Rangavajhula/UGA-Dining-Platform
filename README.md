@@ -27,4 +27,5 @@ Ensure Docker Desktop is installed on your machine before proceeding with the se
 
 **Note:** Setting up containers manually is not essential, as they are configured by default. The project uses Spring Boot Docker support, automatically detecting the Docker Compose file and running the required containers.
 
-And you're good to go! Navigate to the [`UgaDiningCommonsApplication.java`](src/main/java/com/db/project/ugadining/UgaDiningCommonsApplication.java) file in your project.
+And you're good to go! 
+Here is where you can run the application [`UgaDiningCommonsApplication`](src/main/java/com/db/project/ugadining/UgaDiningCommonsApplication.java).
