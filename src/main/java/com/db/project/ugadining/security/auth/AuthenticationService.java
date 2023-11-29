@@ -1,6 +1,6 @@
 package com.db.project.ugadining.security.auth;
 
-import com.db.project.ugadining.exception.EmailAlreadyTakenException;
+import com.db.project.ugadining.exception.AlreadyExistsException;
 import com.db.project.ugadining.security.user.Role;
 import com.db.project.ugadining.security.user.User;
 import com.db.project.ugadining.security.user.UserRepository;
@@ -28,7 +28,7 @@ public class AuthenticationService {
         logger.info("Registering a new user: {}", registerRequest.getEmail());
 
         if ( userRepository.existsByEmail(registerRequest.getEmail())) {
-            throw new EmailAlreadyTakenException(registerRequest.getEmail());
+            throw new AlreadyExistsException(registerRequest.getEmail());
         }
 
         var user = User.builder()
