@@ -1,5 +1,6 @@
 package com.db.project.ugadining.service;
 
+import com.db.project.ugadining.exception.AlreadyExistsException;
 import com.db.project.ugadining.exception.NotFoundException;
 import com.db.project.ugadining.exception.ServiceException;
 import com.db.project.ugadining.model.Dish;
@@ -13,8 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +57,12 @@ public class DishService {
 
         try {
             logger.info("Registering a new dish {}", dish.getDishName());
+
+            Optional<Dish> existingDish = dishRepository.findById(dish.getDishName());
+            if(existingDish.isPresent()) {
+                throw new AlreadyExistsException(dish.getDishName());
+            }
+
             dishRepository.save(dish);
 
             if (dishDto.menuList() != null && !dishDto.menuList().isEmpty()) {
