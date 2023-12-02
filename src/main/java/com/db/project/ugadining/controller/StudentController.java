@@ -38,6 +38,12 @@ public class StudentController {
         return studentService.getStudentByName(studentName);
     }
 
+    @GetMapping(path = "/email/{studentEmail}")
+    public Student getStudentByEmail(@PathVariable String studentEmail) {
+
+        return studentService.getStudentByEmail(studentEmail);
+    }
+
     @PostMapping
     public ResponseEntity<Student> postStudent(
             @RequestBody StudentDto studentDto

@@ -1,14 +1,3 @@
--- _user
-INSERT INTO _user (
-    user_id,
-    firstname,
-    lastname,
-    email,
-    password,
-    role
-) VALUES
-    (1, 'Admin', 'Admin', 'admin@example.com', 'admin', 'ADMIN');
-
 -- Meal plans
 INSERT INTO meal_plan (
     meal_plan_id,

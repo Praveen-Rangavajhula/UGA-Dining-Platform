@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,17 +30,20 @@ public class SecurityConfiguration {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        auth -> auth.requestMatchers(
-                                        "/api/v1/auth/**",
+                        auth -> auth
+                                .requestMatchers(HttpMethod.GET,
                                         "/api/v1/dish/**",
-                                        "/api/v1/student/**",
+                                        "/api/v1/meal-plan/**",
                                         "/api/v1/menu/**",
-                                        "/api/v1/dining-hall/**",
-                                        "/api/v1/meal-plan/**"
+                                        "/api/v1/dining-hall/**"
                                 )
                                 .permitAll()
-                                .anyRequest()
+                                .requestMatchers("/api/v1/auth/**")
+                                .permitAll()
+                                .requestMatchers("/api/v1/student/**")
                                 .authenticated()
+                                .anyRequest()
+                                .denyAll()
                 )
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
