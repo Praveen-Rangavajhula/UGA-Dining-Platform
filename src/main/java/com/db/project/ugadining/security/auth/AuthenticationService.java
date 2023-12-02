@@ -36,7 +36,7 @@ public class AuthenticationService {
                 .lastname(registerRequest.getLastname())
                 .email(registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
-                .role(Role.USER)
+                .role(getUserRole(registerRequest.getEmail()))
                 .build();
 
         userRepository.save(user);
@@ -77,6 +77,14 @@ public class AuthenticationService {
         } catch (Exception e) {
             logger.error("Error during authentication: {}", e.getMessage());
             throw new FailedLoginException("Error during authentication");
+        }
+    }
+
+    private Role getUserRole(String email) {
+        if (email.equals("admin@example.com")) {
+            return Role.ADMIN;
+        } else {
+            return Role.USER;
         }
     }
 }
