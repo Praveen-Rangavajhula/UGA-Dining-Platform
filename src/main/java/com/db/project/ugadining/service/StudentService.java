@@ -44,6 +44,14 @@ public class StudentService {
                 );
     }
 
+    public Student getStudentByEmail(String email) {
+        logger.info("Obtaining student with email {}", email);
+        return studentRepository.findStudentByStudentEmail(email)
+                .orElseThrow(
+                        () -> new NotFoundException(String.format("Student with email '%s' not found", email))
+                );
+    }
+
     public Student putNewStudent(StudentDto studentDto) {
 
         if (studentDto.studentName() == null || studentDto.studentPhoneNumber() == null ||
