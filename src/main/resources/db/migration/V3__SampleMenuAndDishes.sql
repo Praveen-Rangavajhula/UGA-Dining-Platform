@@ -2,11 +2,13 @@
 INSERT INTO menu (menu_name, dining_hall_name)
 VALUES
     ('Ohouse Breakfast Menu', 'Ohouse'),
+    ('Ohouse Lunch Menu', 'Ohouse'),
     ('Ohouse Dinner Menu', 'Ohouse');
 
 -- Menus for Bolton
 INSERT INTO menu (menu_name, dining_hall_name)
 VALUES
+    ('Bolton Breakfast Menu', 'Bolton'),
     ('Bolton Lunch Menu', 'Bolton'),
     ('Bolton Dinner Menu', 'Bolton');
 
@@ -69,7 +71,25 @@ LIMIT 10;
 
 INSERT INTO menu_dish_list (menu_name, dish_name)
 SELECT
+    'Ohouse Lunch Menu' AS menu_name, dish_name
+FROM
+    dish
+ORDER BY
+    RANDOM()
+LIMIT 10;
+
+INSERT INTO menu_dish_list (menu_name, dish_name)
+SELECT
     'Ohouse Dinner Menu' AS menu_name, dish_name
+FROM
+    dish
+ORDER BY
+    RANDOM()
+LIMIT 10;
+
+INSERT INTO menu_dish_list (menu_name, dish_name)
+SELECT
+    'Bolton Breakfast Menu' AS menu_name, dish_name
 FROM
     dish
 ORDER BY
