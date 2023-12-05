@@ -114,8 +114,21 @@ CREATE TABLE IF NOT EXISTS student_food_preferences
     CONSTRAINT fk_student_food_preferences_on_student FOREIGN KEY (student_id) REFERENCES student (student_id)
 );
 
+CREATE TABLE IF NOT EXISTS student_dining_hall_association
+(
+    student_id            BIGINT NOT NULL,
+    dining_hall_name      VARCHAR(255) NOT NULL,
+    CONSTRAINT pk_student_dining_hall_association PRIMARY KEY (student_id, dining_hall_name),
+    CONSTRAINT FK_ASSOCIATION_ON_STUDENT FOREIGN KEY (student_id) REFERENCES student (student_id),
+    CONSTRAINT FK_ASSOCIATION_ON_DINING_HALL FOREIGN KEY (dining_hall_name) REFERENCES dining_hall (dining_hall_name)
+);
+
+
 ALTER TABLE menu_dish_list
     ADD CONSTRAINT fk_mendislis_on_dish FOREIGN KEY (dish_name) REFERENCES dish (dish_name);
 
 ALTER TABLE menu_dish_list
     ADD CONSTRAINT fk_mendislis_on_menu FOREIGN KEY (menu_name) REFERENCES menu (menu_name);
+
+ALTER TABLE student
+    ADD CONSTRAINT fk_student_on_user FOREIGN KEY (student_id) REFERENCES _user (user_id);
